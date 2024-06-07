@@ -48,4 +48,39 @@ describe('JaratKezelo', () => {
         const jaratok = jaratKezelo.jaratokRepuloterrol('LOS');
         expect(jaratok).toEqual(['ASD6969', 'ASDFGH']);
     });
+
+    it('hibaüzenetet kéne dobnija az üres járatszámra', () => {
+        expect(() => {
+            jaratKezelo.ujJarat('', 'BUD', 'JFK', new Date('2024-06-01T10:00:00Z'));
+        }).toThrow('A járatszámnak egyedinek kell lennie!');
+    });
+    
+    it('hibát kéne dobnija a null járatszámra', () => {
+        expect(() => {
+            jaratKezelo.ujJarat(null as any, 'BUD', 'JFK', new Date('2024-06-01T10:00:00Z'));
+        }).toThrow('A járatszámnak egyedinek kell lennie!');
+    });
+
+    it('hibaüzenetet kéne dobnija nem létező járatkésés miatt', () => {
+        expect(() => {
+            jaratKezelo.keses('NONEXISTENT', 30);
+        }).toThrow('Nem létező járat!');
+    });
+
+    it('üres listát kéne visszaadnia', () => {
+        const jaratok = jaratKezelo.jaratokRepuloterrol('XYZ');
+        expect(jaratok).toEqual([]);
+    });
+    
+    it('hibaüzenetet kéne dobnija az üres repülőtér kódhoz', () => {
+        expect(() => {
+            jaratKezelo.jaratokRepuloterrol('');
+        }).toThrow('A reptér kódja nem lehet üres!');
+    });
+    
+    it('hibát kéne dobnija a null repülőtéri kódhoz', () => {
+        expect(() => {
+            jaratKezelo.jaratokRepuloterrol(null as any);
+        }).toThrow('A reptér kódja nem lehet üres!');
+    });
 });

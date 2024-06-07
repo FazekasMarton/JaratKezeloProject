@@ -8,7 +8,7 @@ export class JaratKezelo {
     }> = new Map();
 
     ujJarat(jaratSzam: string, repterHonnan: string, repterHova: string, indulas: Date): void {
-        if (this.jaratok.has(jaratSzam)) {
+        if (this.jaratok.has(jaratSzam) || jaratSzam == null || jaratSzam == undefined || jaratSzam == "") {
             throw new Error('A járatszámnak egyedinek kell lennie!');
         }
 
@@ -44,6 +44,9 @@ export class JaratKezelo {
     }
 
     jaratokRepuloterrol(repter: string): string[] {
+        if (repter == "" || repter == null || repter == undefined) {
+            throw new Error('A reptér kódja nem lehet üres!');
+        }
         const jaratok = [];
         for (const [jaratSzam, jarat] of this.jaratok.entries()) {
             if (jarat.repterHonnan === repter) {
